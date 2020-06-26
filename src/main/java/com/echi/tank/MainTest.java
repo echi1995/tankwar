@@ -15,7 +15,7 @@ public class MainTest {
 
 		Integer initTankCount = Integer.valueOf(PropertyManager.get("initTankCount"));
 		for (int i = 0; i < initTankCount; i++) {
-			tankFrame.tanks.add(new Tank(50 + i * 80, 200, Dir.DOWN, tankFrame, Group.BAD));
+			GameModel.getInstance().objects.add(new Tank(50 + i * 80, 200, Dir.DOWN, Group.BAD));
 		}
 
 		while (true){

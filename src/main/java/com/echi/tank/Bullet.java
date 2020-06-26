@@ -10,32 +10,34 @@ import java.awt.*;
  * @Date: 2020/6/23 13:41
  */
 @Data
-public class Bullet {
+public class Bullet extends GameObject {
 
 	private static final int SPEED = 10;
-	private int x, y;
 	private Dir dir;
 	public static int WIDTH = ResourceManager.bulletD.getWidth();
 	public static int HEIGHT = ResourceManager.bulletD.getHeight();
 	private boolean living = true;
-	private TankFrame tankFrame;
 	private Group group;
 
 	Rectangle rect;
 
 
-	public Bullet(int x, int y, Dir dir, TankFrame tankFrame, Group group) {
+	public Bullet(int x, int y, Dir dir, Group group) {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
-		this.tankFrame = tankFrame;
 		this.group = group;
 		rect = new Rectangle(x, y, WIDTH, HEIGHT);
 	}
 
+	@Override
 	public void paint(Graphics g){
+		if (!isAlive()){
+			living = false;
+		}
+
 		if (!living){
-			tankFrame.bulletList.remove(this);
+			GameModel.getInstance().objects.remove(this);
 			return;
 		}
 		switch (dir){
@@ -81,6 +83,8 @@ public class Bullet {
 			case DOWN_LEFT: x-=SPEED;y+=SPEED;break;
 			default:break;
 		}
+		rect.x = x;
+		rect.y = y;
 	}
 
 	public boolean isAlive(){
@@ -90,22 +94,9 @@ public class Bullet {
 		return living;
 	}
 
-	public void collideWith(Tank tank) {
-		if (this.group == tank.getGroup()){
-			return;
-		}
-
-		//todo 用一个rectangle来保存子弹和坦克
-		rect.x = x;
-		rect.y = y;
-		Rectangle tankRectangle = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
-		if (rect.intersects(tankRectangle)){
-			tank.die();
-			this.die();
-		}
-	}
 
 	public void die(){
 		living = false;
+		GameModel.getInstance().objects.remove(this);
 	}
 }

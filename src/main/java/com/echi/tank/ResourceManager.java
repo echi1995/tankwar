@@ -14,6 +14,7 @@ public class ResourceManager {
 	public static BufferedImage goodTankL, goodTankU, goodTankR, goodTankD, goodTankLU, goodTankUR, goodTankRD, goodTankDL;
 	public static BufferedImage bulletL, bulletU, bulletR, bulletD, bulletLU, bulletUR, bulletRD, bulletDL;
 	public static BufferedImage[] explodes = new BufferedImage[16];
+	public static BufferedImage item;
 
 	static {
 		try {
